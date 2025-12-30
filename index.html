@@ -1,50 +1,88 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <title>CFC - Main Menu</title>
+<meta charset="UTF-8">
+<title>CFC Main Menu</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
 
-  <!-- REQUIRED for mobile responsiveness -->
-  <meta name="viewport" content="width=device-width, initial-scale=1">
+<style>
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+  background: #f4f6f8;
+}
 
-  <style>
-    html, body {
-      margin: 0;
-      padding: 0;
-      height: 100%;
-      width: 100%;
-      overflow: hidden;
-      font-family: Arial, sans-serif;
-      background: #f4f6f8;
-    }
+header {
+  background: #1f2937;
+  color: white;
+  padding: 10px;
+  font-size: 16px;
+}
 
-    header {
-      background: #1f2937;
-      color: #fff;
-      padding: 10px 14px;
-      font-size: 16px;
-    }
+#menu {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  padding: 10px;
+  background: #e5e7eb;
+}
 
-    iframe {
-      width: 100%;
-      height: calc(100% - 44px);
-      border: none;
-      background: #fff;
-    }
+button {
+  padding: 8px 12px;
+  border: none;
+  background: #2563eb;
+  color: white;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 13px;
+}
 
-    .note {
-      font-size: 12px;
-      opacity: 0.8;
-    }
-  </style>
+button.imp { background: #dc2626; }
+button.hc { background: #059669; }
+
+iframe {
+  width: 100%;
+  height: calc(100vh - 120px);
+  border: none;
+}
+</style>
 </head>
+
 <body>
 
-  <iframe
-    src="https://script.google.com/macros/s/AKfycbzTyO5e0ee2DGPRGtTMtnh46GOjHSJiK5K_5RgeK9Rxyut72HQfOdtLYoRLUVPbQvbESw/exec"
-    allow="camera; microphone; clipboard-write"
-    loading="lazy">
-  </iframe>
+<header>CFC Dashboard</header>
+
+<div id="menu">Loading...</div>
+
+<iframe id="viewer"></iframe>
+
+<script>
+const SHEET_API =
+  "https://script.google.com/macros/s/AKfycbx_JSYOB8V2XyiFrCqQiIqxbjvuUd9n2fw-gSSrTwGo4v2aLquOZUMNDzM5mi8igpVJ/exec";
+
+fetch(SHEET_API)
+  .then(r => r.json())
+  .then(data => {
+    const menu = document.getElementById("menu");
+    menu.innerHTML = "";
+
+    data
+      .filter(row => row.ACTIVE === true || row.ACTIVE === "TRUE")
+      .forEach(row => {
+        const btn = document.createElement("button");
+        btn.textContent = row.LinkCaption;
+
+        if (row.TYPE === "IMP") btn.classList.add("imp");
+        if (row.TYPE === "HC") btn.classList.add("hc");
+
+        btn.onclick = () => {
+          document.getElementById("viewer").src = row.Link;
+        };
+
+        menu.appendChild(btn);
+      });
+  });
+</script>
 
 </body>
 </html>
