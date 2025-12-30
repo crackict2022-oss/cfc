@@ -2,55 +2,85 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>CFC Main Menu</title>
+<title>CFC Dashboard</title>
 <meta name="viewport" content="width=device-width, initial-scale=1">
 
 <style>
-body {
-  margin: 0;
-  font-family: Arial, sans-serif;
-  background: #f4f6f8;
+:root{
+  --bg:#f4f6f8;
+  --head:#1f2937;
+  --imp:#dc2626;
+  --hc:#059669;
+  --btn:#2563eb;
 }
 
-header {
-  background: #1f2937;
-  color: white;
-  padding: 10px;
-  font-size: 16px;
+body{
+  margin:0;
+  font-family:Arial, sans-serif;
+  background:var(--bg);
 }
 
-#menu {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 8px;
-  padding: 10px;
-  background: #e5e7eb;
+header{
+  background:var(--head);
+  color:#fff;
+  padding:10px 12px;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  font-size:15px;
 }
 
-button {
-  padding: 8px 12px;
-  border: none;
-  background: #2563eb;
-  color: white;
-  border-radius: 4px;
-  cursor: pointer;
-  font-size: 13px;
+#menu{
+  display:flex;
+  flex-wrap:wrap;
+  gap:6px;
+  padding:8px;
+  background:#e5e7eb;
 }
 
-button.imp { background: #dc2626; }
-button.hc { background: #059669; }
+button{
+  border:none;
+  padding:8px 10px;
+  font-size:13px;
+  border-radius:4px;
+  cursor:pointer;
+  background:var(--btn);
+  color:white;
+}
 
-iframe {
-  width: 100%;
-  height: calc(100vh - 120px);
-  border: none;
+button.imp{background:var(--imp);}
+button.hc{background:var(--hc);}
+
+iframe{
+  width:100%;
+  height:calc(100vh - 110px);
+  border:none;
+  background:white;
+}
+
+/* 📱 FULL SCREEN MODE */
+.fullscreen #menu,
+.fullscreen header{
+  display:none;
+}
+
+.fullscreen iframe{
+  height:100vh;
+}
+
+#fsBtn{
+  background:#111827;
+  font-size:12px;
 }
 </style>
 </head>
 
 <body>
 
-<header>CFC Dashboard</header>
+<header>
+  <span>CFC Dashboard</span>
+  <button id="fsBtn">📱 Full</button>
+</header>
 
 <div id="menu">Loading...</div>
 
@@ -58,30 +88,43 @@ iframe {
 
 <script>
 const SHEET_API =
-  "https://script.google.com/macros/s/AKfycbx_JSYOB8V2XyiFrCqQiIqxbjvuUd9n2fw-gSSrTwGo4v2aLquOZUMNDzM5mi8igpVJ/exec";
+"https://script.google.com/macros/s/YOUR_SCRIPT_ID/exec";
 
+const viewer = document.getElementById("viewer");
+const menu = document.getElementById("menu");
+
+/* 🔁 Load menu from Sheet */
 fetch(SHEET_API)
-  .then(r => r.json())
-  .then(data => {
-    const menu = document.getElementById("menu");
-    menu.innerHTML = "";
+.then(r => r.json())
+.then(data => {
+  menu.innerHTML = "";
+  data
+    .filter(r => r.ACTIVE === true || r.ACTIVE === "TRUE")
+    .forEach(r => {
+      const btn = document.createElement("button");
+      btn.textContent = r.LinkCaption;
 
-    data
-      .filter(row => row.ACTIVE === true || row.ACTIVE === "TRUE")
-      .forEach(row => {
-        const btn = document.createElement("button");
-        btn.textContent = row.LinkCaption;
+      if (r.TYPE === "IMP") btn.classList.add("imp");
+      if (r.TYPE === "HC") btn.classList.add("hc");
 
-        if (row.TYPE === "IMP") btn.classList.add("imp");
-        if (row.TYPE === "HC") btn.classList.add("hc");
+      btn.onclick = () => openLink(r.Link);
+      menu.appendChild(btn);
+    });
+});
 
-        btn.onclick = () => {
-          document.getElementById("viewer").src = row.Link;
-        };
+/* 🧠 HYBRID LOGIC */
+function openLink(url){
+  if (url.includes("script.google.com")) {
+    window.open(url, "_blank");
+  } else {
+    viewer.src = url;
+  }
+}
 
-        menu.appendChild(btn);
-      });
-  });
+/* 📱 FULL SCREEN TOGGLE */
+document.getElementById("fsBtn").onclick = () => {
+  document.body.classList.toggle("fullscreen");
+};
 </script>
 
 </body>
