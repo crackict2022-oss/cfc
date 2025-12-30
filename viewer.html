@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>CFC Viewer</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<style>
+html,body{
+  margin:0;
+  padding:0;
+  height:100%;
+  font-family:Arial, sans-serif;
+  background:#f4f6f8;
+}
+
+header{
+  background:#1f2937;
+  color:#fff;
+  padding:10px 14px;
+  font-size:15px;
+}
+
+iframe{
+  width:100%;
+  height:calc(100vh - 44px);
+  border:none;
+  background:white;
+}
+
+#error{
+  padding:20px;
+  font-size:14px;
+  color:#b91c1c;
+  display:none;
+}
+</style>
+</head>
+
+<body>
+
+<header>CFC Viewer</header>
+
+<div id="error"></div>
+<iframe id="frame"></iframe>
+
+<script>
+const params = new URLSearchParams(window.location.search);
+const url = params.get("url");
+
+const frame = document.getElementById("frame");
+const error = document.getElementById("error");
+
+if (!url) {
+  error.style.display = "block";
+  error.textContent = "No URL parameter provided.";
+} else if (url.includes("script.google.com")) {
+  // 🚫 Apps Script iframe blocked → open safely
+  window.location.href = url;
+} else {
+  // ✅ Safe iframe
+  frame.src = url;
+}
+</script>
+
+</body>
+</html>
