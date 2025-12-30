@@ -30,9 +30,8 @@ iframe{
 
 #error{
   padding:20px;
-  font-size:14px;
   color:#b91c1c;
-  display:none;
+  font-size:14px;
 }
 </style>
 </head>
@@ -45,21 +44,31 @@ iframe{
 <iframe id="frame"></iframe>
 
 <script>
+/* 🔢 SCRIPT MAP */
+const SCRIPTS = {
+  1: "https://script.google.com/macros/s/AKfycbyiOL9DTwOfnf39DPWJEAQCQMJguNQ5A-rRb1IZvBDAD3rdTaR_HbAS1B54fmfRNcInfw/exec",
+  2: "https://script.google.com/macros/s/AKfycbxJ0ThopoJmNwM0yzAKFuBkRc3qFup3_w_9b1wt35kh5pooCOIfk5hvBcXq8896EDlp/exec",
+  3: "https://script.google.com/macros/s/AKfycbxJ0ThopoJmNwM0yzAKFuBkRc3qFup3_w_9b1wt35kh5pooCOIfk5hvBcXq8896EDlp/exec",
+  4: "https://script.google.com/macros/s/AKfycbxJ0ThopoJmNwM0yzAKFuBkRc3qFup3_w_9b1wt35kh5pooCOIfk5hvBcXq8896EDlp/exec"
+};
+
 const params = new URLSearchParams(window.location.search);
-const url = params.get("url");
+const id = params.get("script");
 
 const frame = document.getElementById("frame");
 const error = document.getElementById("error");
 
-if (!url) {
-  error.style.display = "block";
-  error.textContent = "No URL parameter provided.";
-} else if (url.includes("script.google.com")) {
-  // 🚫 Apps Script iframe blocked → open safely
-  window.location.href = url;
+if (!id || !SCRIPTS[id]) {
+  error.textContent = "Invalid or missing script number.";
 } else {
-  // ✅ Safe iframe
-  frame.src = url;
+  const url = SCRIPTS[id];
+
+  // 🚫 Apps Script cannot be iframed
+  if (url.includes("script.google.com")) {
+    window.location.replace(url);
+  } else {
+    frame.src = url;
+  }
 }
 </script>
 
