@@ -2,49 +2,56 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <title>CFC - Main Menu</title>
-
-  <!-- REQUIRED for mobile responsiveness -->
+  <title>CFC · Opening App</title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   <style>
-    html, body {
+    body {
       margin: 0;
-      padding: 0;
-      height: 100%;
-      width: 100%;
-      overflow: hidden;
+      height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
       font-family: Arial, sans-serif;
       background: #f4f6f8;
+      color: #111827;
+      text-align: center;
     }
 
-    header {
-      background: #1f2937;
-      color: #fff;
-      padding: 10px 14px;
-      font-size: 16px;
+    a {
+      color: #2563eb;
+      text-decoration: none;
+      font-weight: 600;
     }
 
-    iframe {
-      width: 100%;
-      height: calc(100% - 44px);
-      border: none;
-      background: #fff;
-    }
-
-    .note {
-      font-size: 12px;
-      opacity: 0.8;
+    a:hover {
+      text-decoration: underline;
     }
   </style>
 </head>
 <body>
 
-  <iframe
-    src="https://script.google.com/macros/s/AKfycbywpD2ueFeeFltH9tELHru_VYowWK3Ukv7roYYIsfNyu4a_3CD0a3safyx9rCe2p83C8Q/exec"
-    allow="camera; microphone; clipboard-write"
-    loading="lazy">
-  </iframe>
+  <div>
+    <div>Opening application…</div>
+    <div style="margin-top:8px;font-size:13px">
+      If it doesn’t open,
+      <a id="lnk" href="#">tap here</a>
+    </div>
+  </div>
+
+  <script>
+    const url =
+      "https://script.google.com/macros/s/AKfycbywpD2ueFeeFltH9tELHru_VYowWK3Ukv7roYYIsfNyu4a_3CD0a3safyx9rCe2p83C8Q/exec";
+
+    const link = document.getElementById("lnk");
+    link.href = url;
+
+    // slight delay prevents mobile/browser blocking
+    setTimeout(() => {
+      window.location.replace(url);
+    }, 300);
+  </script>
 
 </body>
 </html>
+   
