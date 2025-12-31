@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <title>CFC - Redirecting…</title>
+  <title>CFC · Opening App</title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   <style>
@@ -15,24 +15,41 @@
       font-family: Arial, sans-serif;
       background: #f4f6f8;
       color: #111827;
+      text-align: center;
+    }
+
+    a {
+      color: #2563eb;
+      text-decoration: none;
+      font-weight: 600;
+    }
+
+    a:hover {
+      text-decoration: underline;
     }
   </style>
 </head>
 <body>
 
   <div>
-    Opening application…<br>
-    <small>If it doesn’t open, <a id="lnk" href="#">click here</a></small>
+    <div>Opening application…</div>
+    <div style="margin-top:8px;font-size:13px">
+      If it doesn’t open,
+      <a id="lnk" href="#">tap here</a>
+    </div>
   </div>
 
   <script>
     const url =
       "https://script.google.com/macros/s/AKfycbyswakgzLd_4T-Pk6-r27NuDDR9Kwhm1d4DSHVYJDecNJ2SCOZH5Ef9e29WYnuMbES-YQ/exec";
 
-    document.getElementById("lnk").href = url;
+    const link = document.getElementById("lnk");
+    link.href = url;
 
-    // auto open
-    window.location.replace(url);
+    // slight delay prevents mobile/browser blocking
+    setTimeout(() => {
+      window.location.replace(url);
+    }, 300);
   </script>
 
 </body>
