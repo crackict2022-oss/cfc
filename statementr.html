@@ -2,49 +2,38 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <title>CFC - Main Menu</title>
-
-  <!-- REQUIRED for mobile responsiveness -->
+  <title>CFC - Redirecting…</title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   <style>
-    html, body {
+    body {
       margin: 0;
-      padding: 0;
-      height: 100%;
-      width: 100%;
-      overflow: hidden;
+      height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
       font-family: Arial, sans-serif;
       background: #f4f6f8;
-    }
-
-    header {
-      background: #1f2937;
-      color: #fff;
-      padding: 10px 14px;
-      font-size: 16px;
-    }
-
-    iframe {
-      width: 100%;
-      height: calc(100% - 44px);
-      border: none;
-      background: #fff;
-    }
-
-    .note {
-      font-size: 12px;
-      opacity: 0.8;
+      color: #111827;
     }
   </style>
 </head>
 <body>
 
-  <iframe
-    src="https://script.google.com/macros/s/AKfycbyswakgzLd_4T-Pk6-r27NuDDR9Kwhm1d4DSHVYJDecNJ2SCOZH5Ef9e29WYnuMbES-YQ/exec"
-    allow="camera; microphone; clipboard-write"
-    loading="lazy">
-  </iframe>
+  <div>
+    Opening application…<br>
+    <small>If it doesn’t open, <a id="lnk" href="#">click here</a></small>
+  </div>
+
+  <script>
+    const url =
+      "https://script.google.com/macros/s/AKfycbyswakgzLd_4T-Pk6-r27NuDDR9Kwhm1d4DSHVYJDecNJ2SCOZH5Ef9e29WYnuMbES-YQ/exec";
+
+    document.getElementById("lnk").href = url;
+
+    // auto open
+    window.location.replace(url);
+  </script>
 
 </body>
 </html>
