@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Dual HTML Viewer</title>
+<style>
+  html, body {
+    margin: 0;
+    padding: 0;
+    height: 100%;
+    width: 100%;
+    overflow: hidden;
+    font-family: Arial, sans-serif;
+  }
+
+  /* Flex container to hold two iframes side by side */
+  .container {
+    display: flex;
+    height: 100vh;
+    width: 100%;
+  }
+
+  /* Each iframe takes half the width */
+  iframe {
+    flex: 1; /* 50% each */
+    border: none;
+    height: 100%;
+  }
+
+  /* Optional: Add a small gap between the two */
+  iframe + iframe {
+    margin-left: 4px;
+  }
+
+  /* Make it responsive for narrow screens */
+  @media (max-width: 800px) {
+    .container {
+      flex-direction: column;
+    }
+    iframe + iframe {
+      margin-left: 0;
+      margin-top: 4px;
+    }
+  }
+</style>
+</head>
+<body>
+
+<div class="container">
+  <iframe src="https://crackict2022-oss.github.io/cfc//selfsearch.html" title="Self Search"></iframe>
+  <iframe src="https://script.google.com/macros/s/AKfycbwwAmYvpcbxpMkd-of7VfjAvC29Qlj3mCpPrfAsYBZ-du-aV6_OsdXm3Ubtk8jB0cMI/exec" title="Token File"></iframe>
+</div>
+
+</body>
+</html>
