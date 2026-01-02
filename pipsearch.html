@@ -6,7 +6,7 @@
 <title>Resizable Dual HTML Viewer</title>
 <style>
   html, body {
-    margin: 0; 
+    margin: 0;
     padding: 0;
     height: 100%;
     width: 100%;
@@ -55,19 +55,19 @@
 <body>
 
 <div class="container">
-  <iframe src="https://sites.google.com/view/cfcmms/selfsearch" id="iframe2"></iframe>
-  <iframe src="https://script.google.com/macros/s/AKfycbwwAmYvpcbxpMkd-of7VfjAvC29Qlj3mCpPrfAsYBZ-du-aV6_OsdXm3Ubtk8jB0cMI/exec" id="iframe1"></iframe>
+  <iframe src="https://crackict2022-oss.github.io/cfc//selfsearch.html" id="iframe1"></iframe>
+  <div class="resizer" id="resizer"></div>
+  <iframe src="https://script.google.com/macros/s/AKfycbwwAmYvpcbxpMkd-of7VfjAvC29Qlj3mCpPrfAsYBZ-du-aV6_OsdXm3Ubtk8jB0cMI/exec" id="iframe2"></iframe>
 </div>
 
 <script>
 const resizer = document.getElementById('resizer');
-const left = document.getElementById('iframe2');
-const right = document.getElementById('iframe1');
+const left = document.getElementById('iframe1');
+const right = document.getElementById('iframe2');
 const container = document.querySelector('.container');
 
 let isResizing = false;
 
-// Mouse events
 resizer.addEventListener('mousedown', (e) => {
   isResizing = true;
   document.body.style.cursor = getComputedStyle(resizer).cursor;
