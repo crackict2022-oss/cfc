@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Dual HTML Viewer</title>
+<title>Resizable Dual HTML Viewer</title>
 <style>
   html, body {
     margin: 0;
@@ -14,33 +14,40 @@
     font-family: Arial, sans-serif;
   }
 
-  /* Flex container to hold two iframes side by side */
+  /* Flex container */
   .container {
     display: flex;
     height: 100vh;
     width: 100%;
   }
 
-  /* Each iframe takes half the width */
   iframe {
-    flex: 1; /* 50% each */
     border: none;
     height: 100%;
   }
 
-  /* Optional: Add a small gap between the two */
-  iframe + iframe {
-    margin-left: 4px;
+  /* Resizer bar */
+  .resizer {
+    width: 6px;
+    background: #ccc;
+    cursor: col-resize;
+    position: relative;
+    z-index: 1;
   }
 
-  /* Make it responsive for narrow screens */
+  .resizer:hover {
+    background: #999;
+  }
+
+  /* Responsive: stack vertically on small screens */
   @media (max-width: 800px) {
     .container {
       flex-direction: column;
     }
-    iframe + iframe {
-      margin-left: 0;
-      margin-top: 4px;
+    .resizer {
+      cursor: row-resize;
+      width: 100%;
+      height: 6px;
     }
   }
 </style>
@@ -48,9 +55,60 @@
 <body>
 
 <div class="container">
-  <iframe src="https://crackict2022-oss.github.io/cfc//selfsearch.html" title="Self Search"></iframe>
-  <iframe src="https://script.google.com/macros/s/AKfycbwwAmYvpcbxpMkd-of7VfjAvC29Qlj3mCpPrfAsYBZ-du-aV6_OsdXm3Ubtk8jB0cMI/exec" title="Token File"></iframe>
+  <iframe src="https://crackict2022-oss.github.io/cfc//selfsearch.html" id="Self Search Window"></iframe>
+  <div class="resizer" id="resizer"></div>
+  <iframe src="https://crackict2022-oss.github.io/cfc//pipnodisplay.html" id="Token Window"></iframe>
 </div>
+
+<script>
+const resizer = document.getElementById('resizer');
+const left = document.getElementById('iframe1');
+const right = document.getElementById('iframe2');
+const container = document.querySelector('.container');
+
+let isResizing = false;
+
+// Mouse events
+resizer.addEventListener('mousedown', (e) => {
+  isResizing = true;
+  document.body.style.cursor = getComputedStyle(resizer).cursor;
+});
+
+document.addEventListener('mousemove', (e) => {
+  if (!isResizing) return;
+
+  const containerRect = container.getBoundingClientRect();
+
+  if (window.innerWidth > 800) {
+    // Horizontal resize
+    let leftWidth = e.clientX - containerRect.left;
+    let rightWidth = containerRect.width - leftWidth - resizer.offsetWidth;
+
+    if (leftWidth < 50) leftWidth = 50;
+    if (rightWidth < 50) rightWidth = 50;
+
+    left.style.flex = '0 0 ' + leftWidth + 'px';
+    right.style.flex = '0 0 ' + rightWidth + 'px';
+  } else {
+    // Vertical resize on small screens
+    let topHeight = e.clientY - containerRect.top;
+    let bottomHeight = containerRect.height - topHeight - resizer.offsetHeight;
+
+    if (topHeight < 50) topHeight = 50;
+    if (bottomHeight < 50) bottomHeight = 50;
+
+    left.style.flex = '0 0 ' + topHeight + 'px';
+    right.style.flex = '0 0 ' + bottomHeight + 'px';
+  }
+});
+
+document.addEventListener('mouseup', () => {
+  if (isResizing) {
+    isResizing = false;
+    document.body.style.cursor = 'default';
+  }
+});
+</script>
 
 </body>
 </html>
