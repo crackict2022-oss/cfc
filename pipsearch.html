@@ -67,6 +67,65 @@ iframe {
     src="https://script.google.com/macros/s/AKfycbyCm7ivqICCxngcwd00eS-TqaQJIxr-EiNDGH9cLmUH4OH50fFSATYR5HJO69Drxc5N/exec">
   </iframe>
 </div>
+<script>
+// ==== FORCE FULLSCREEN ====
+function requestFullscreen() {
+  const el = document.documentElement;
+  if (el.requestFullscreen) el.requestFullscreen();
+  else if (el.webkitRequestFullscreen) el.webkitRequestFullscreen();
+  else if (el.msRequestFullscreen) el.msRequestFullscreen();
+}
+
+// Request fullscreen on load
+window.addEventListener('load', () => {
+  requestFullscreen();
+  // Re-request if user tries to exit
+  document.addEventListener('fullscreenchange', () => {
+    if (!document.fullscreenElement) requestFullscreen();
+  });
+});
+
+// ==== DISABLE KEYS ====
+document.addEventListener('keydown', function(e) {
+  const allowedKeys = [
+    'Enter', 'Tab', 'CapsLock'
+  ];
+
+  // Allow numbers, letters, shift, capslock
+  if ((e.key.length === 1 && /^[a-zA-Z0-9]$/.test(e.key)) ||
+      allowedKeys.includes(e.key) ||
+      e.key === 'Shift') {
+    return; // allowed
+  }
+
+  // Block everything else
+  e.preventDefault();
+  e.stopPropagation();
+});
+
+// ==== DISABLE RIGHT CLICK ====
+document.addEventListener('contextmenu', function(e) {
+  e.preventDefault();
+});
+
+// ==== DISABLE F12, F11, Ctrl+Shift+I/J/C/U etc ====
+document.addEventListener('keydown', function(e) {
+  // F12, F11, Ctrl+Shift+I/J/C/U, Ctrl+P, Ctrl+T
+  if (
+      e.key === 'F12' || e.key === 'F11' ||
+      (e.ctrlKey && e.shiftKey && ['I','J','C'].includes(e.key.toUpperCase())) ||
+      (e.ctrlKey && ['U','P','T','N','W'].includes(e.key.toUpperCase()))
+  ) {
+    e.preventDefault();
+    e.stopPropagation();
+  }
+});
+
+// ==== REPEATEDLY FORCE FULLSCREEN ====
+setInterval(() => {
+  if (!document.fullscreenElement) requestFullscreen();
+}, 1000);
+</script>
 
 </body>
 </html>
